@@ -39,26 +39,19 @@ public class UserResource {
         userController.addUser(user);
         return user;
     }
-/*
-    @GetMapping("/{fullname}")
-    public User getUserByName(@PathVariable("fullname") String fullname) {
-        return userController.getUserByName(fullname);
-    }
-
-    @PostMapping
-    public User addUser(@RequestBody User user) {
-        userController.addUser(user);
-        return user;
-    }
 
     @DeleteMapping("{id}")
     public void removeUser(@PathVariable("id") String id) {
         userController.removeUser(id);
     }
 
-    @GetMapping("{id}/email")
-    public Map<String,String> email(@PathVariable("id") String id) {
-        return userController.getUser(id).getEmail(); // collections.singletonmap
+    @PutMapping("{id}")
+    public void editUser(@PathVariable("id") String id, @RequestBody User user) {
+        User usernew = userController.getUser(id);
+        usernew.setId(user.getId());
+        usernew.setFullName(user.getFullName());
+        usernew.setEmail(user.getEmail());
+        usernew.setPassword(user.getPassword());
+        userController.editUser(user);
     }
- */
 }

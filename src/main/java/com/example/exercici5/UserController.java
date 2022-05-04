@@ -24,17 +24,10 @@ public class UserController {
     public void addUser(User user) {
         userRepository.save(user);
     }
-/*
-    public User getUserByName(String fullname) {
-        return userRepository.findByName(fullname);
-    }
-
-    public void addUser(User user) {
-        userRepository.addUser(user);
-    }
-
     public void removeUser(String id) {
-        userRepository.removeUserById(Integer.valueOf(id));
+        userRepository.deleteById(Integer.valueOf(id));
     }
- */
+    public void editUser(User user) {
+        userRepository.save(user);
+    }
 }
