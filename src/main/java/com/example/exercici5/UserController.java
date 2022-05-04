@@ -21,6 +21,9 @@ public class UserController {
         if (user.isPresent()) return user.get();
         else return null;
     }
+    public void addUser(User user) {
+        userRepository.save(user);
+    }
 /*
     public User getUserByName(String fullname) {
         return userRepository.findByName(fullname);

@@ -33,6 +33,12 @@ public class UserResource {
     public Map<String,String> email(@PathVariable("id") String id) {
         return Collections.singletonMap(id, userController.getUser(id).getEmail()); // collections.singletonmap
     }
+
+    @PostMapping
+    public User addUser(@RequestBody User user) {
+        userController.addUser(user);
+        return user;
+    }
 /*
     @GetMapping("/{fullname}")
     public User getUserByName(@PathVariable("fullname") String fullname) {
