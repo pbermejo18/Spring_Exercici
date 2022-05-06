@@ -1,6 +1,11 @@
 package com.example.exercici5;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -53,5 +58,33 @@ public class UserResource {
         usernew.setEmail(user.getEmail());
         usernew.setPassword(user.getPassword());
         userController.editUser(user);
+    }
+
+    /*
+    @PatchMapping("/users")
+    public void updateUserPartially(@PathVariable List<User> user1, @RequestBody User user) {
+        user1 = userController.getAllUsers();
+
+        for (User users: user1) {
+            users.setId(user.getId());
+            users.setFullName(user.getFullName());
+            users.setEmail(user.getEmail());
+            users.setPassword(user.getPassword());
+        }
+
+        userController.editUser(user);
+    }
+     */
+
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<User> updateCustomer(@PathVariable String id, @RequestBody JsonPatch patch) {
+        try {
+            User user = userController.getUser(id);
+            User userPatched = userController.applyPatchToCustomer(patch, user);
+            userController.editUser(userPatched);
+            return ResponseEntity.ok(userPatched);
+        } catch (JsonPatchException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

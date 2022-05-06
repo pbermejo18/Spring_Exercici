@@ -1,5 +1,10 @@
 package com.example.exercici5;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -7,6 +12,7 @@ import java.util.Optional;
 
 @Controller
 public class UserController {
+    ObjectMapper objectMapper = new ObjectMapper();
     UserDAO userRepository;
     public UserController(UserDAO userRepository) {
         this.userRepository = userRepository;
@@ -29,5 +35,13 @@ public class UserController {
     }
     public void editUser(User user) {
         userRepository.save(user);
+    }
+
+
+    User applyPatchToCustomer(
+
+            JsonPatch patch, User targetCustomer) throws JsonPatchException, JsonProcessingException {
+        JsonNode patched = patch.apply(objectMapper.convertValue(targetCustomer, JsonNode.class));
+        return objectMapper.treeToValue(patched, User.class);
     }
 }
