@@ -60,22 +60,6 @@ public class UserResource {
         userController.editUser(user);
     }
 
-    /*
-    @PatchMapping("/users")
-    public void updateUserPartially(@PathVariable List<User> user1, @RequestBody User user) {
-        user1 = userController.getAllUsers();
-
-        for (User users: user1) {
-            users.setId(user.getId());
-            users.setFullName(user.getFullName());
-            users.setEmail(user.getEmail());
-            users.setPassword(user.getPassword());
-        }
-
-        userController.editUser(user);
-    }
-     */
-
     @PatchMapping(path = "/{id}")
     public ResponseEntity<User> updateCustomer(@PathVariable String id, @RequestBody JsonPatch patch) {
         try {
@@ -87,4 +71,9 @@ public class UserResource {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    /*
+    [
+        {"op":"replace","path":"/email","value":"pol19@jmayl.com"}
+    ]
+     */
 }
